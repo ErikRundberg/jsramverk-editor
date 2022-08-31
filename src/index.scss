@@ -66,7 +66,7 @@ header {
     background: #d0d0d0;
   }
 
-  &:active {
+  &:not(.disabled):active {
     color: #e8e8e8;
     background: #d0d0d0;
   }

@@ -62,7 +62,7 @@ header {
 .button:not(.disabled):hover {
   background: #d0d0d0;
 }
-.button:active {
+.button:not(.disabled):active {
   color: #e8e8e8;
   background: #d0d0d0;
 }
