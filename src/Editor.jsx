@@ -4,19 +4,7 @@ import "trix/dist/trix.css"
 import { TrixEditor } from "react-trix";
 
 class Editor extends Component {
-    mergeTags = [{
-        trigger: "@",
-        tags: [
-            {name: "Dominic St-Pierre", tag: "@dominic"},
-            {name: "John Doe", tag: "@john"}
-        ]
-    }, {
-        trigger: "{",
-        tags: [
-            {name: "First name", tag: "{{ .FirstName }}"},
-            {name: "Last name", tag: "{{ .LastName }}"}
-        ]
-    }]
+    mergeTags = []
     handleChange = () => {};
     render() {
         return (
@@ -33,10 +21,8 @@ class Editor extends Component {
                             <button className={"button disabled"}>PDF</button>
                         </div>
                     </div>
-                    <div className={"trix-container"}>
-                        <div className={"editor-container"}>
-                            <TrixEditor id={"trix"} onChange={this.handleChange} mergeTags={this.mergeTags}/>
-                        </div>
+                    <div className={"editor-container"}>
+                        <TrixEditor id={"trix"} onChange={this.handleChange} mergeTags={this.mergeTags}/>
                     </div>
                 </div>
 

@@ -28,10 +28,15 @@ header {
   background: linear-gradient(#2cb67d, #16764e);
 }
 
+.main {
+  display: flex;
+  flex-direction: column;
+  width: 50vw;
+  margin: 0 auto;
+}
+
 .buttons {
-  width: 100vw;
   height: 10vh;
-  background-color: darkcyan;
 }
 
 .buttons-padding {
@@ -39,7 +44,6 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  padding: 0 20%;
 }
 
 .button {
@@ -72,16 +76,13 @@ header {
   background: #bdbdbd;
 }
 
-.trix-container {
-  width: 80%;
-  margin: 0 auto;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.editor-container {
+  min-height: 30vh;
+  border-radius: 0.5em;
   background-color: ghostwhite;
-  padding: 3em;
+  padding: 2em;
 }
 
-.editor-container {
-
+trix-editor {
+  min-height: 25vh !important;
 }
