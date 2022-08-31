@@ -1,5 +1,6 @@
 * {
   margin: 0;
+  overflow-x: hidden;
 }
 
 body {
@@ -72,14 +73,14 @@ header {
 }
 
 .editor-container {
-  min-height: 30vh;
+  min-height: 40vh;
   border-radius: 0.5em;
   background-color: ghostwhite;
   padding: 2em;
 }
 
 trix-editor {
-  min-height: 25vh !important;
+  min-height: 35vh !important;
 }
 
 /*# sourceMappingURL=index.css.map */
