@@ -4,14 +4,17 @@
 
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: #16161a;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
 }
 
 header {
@@ -46,20 +49,22 @@ header {
   padding: 0.5em 1.5em;
   font-size: 125%;
   border-radius: 0.5em;
-  transition: all 0.3s;
+  transition: all .3s;
   -webkit-user-select: none; /* Safari */
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* IE10+/Edge */
   user-select: none; /* Standard */
   min-height: 60%;
   min-width: 15%;
-}
-.button:not(.disabled):hover {
-  background: #d0d0d0;
-}
-.button:active {
-  color: #e8e8e8;
-  background: #d0d0d0;
+
+  &:not(.disabled):hover {
+    background: #d0d0d0;
+  }
+
+  &:active {
+    color: #e8e8e8;
+    background: #d0d0d0;
+  }
 }
 
 .disabled {
@@ -77,4 +82,6 @@ header {
   padding: 3em;
 }
 
-/*# sourceMappingURL=index.css.map */
+.editor-container {
+
+}
