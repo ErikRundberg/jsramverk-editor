@@ -6,6 +6,10 @@ import { TrixEditor } from "react-trix";
 class Editor extends Component {
     mergeTags = []
     handleChange = () => {};
+    save = () => {
+      let text = document.querySelector("trix-editor").value;
+      console.log(text);
+    };
     render() {
         return (
             <div>
@@ -15,7 +19,7 @@ class Editor extends Component {
                 <div className={"main"}>
                     <div className={"buttons"}>
                         <div className={"buttons-padding"}>
-                            <button className={"button"}>Save</button>
+                            <button className={"button"} onClick={this.save}>Save</button>
                             <button className={"button disabled"}>Invite</button>
                             <button className={"button disabled"}>Code-mode</button>
                             <button className={"button disabled"}>PDF</button>
