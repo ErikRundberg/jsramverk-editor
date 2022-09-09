@@ -11,12 +11,26 @@ function DocSelector({docs, setDoc}) {
             docSelect.value = doc["_id"];
         }
     }
-    return (
-        <div>
+    function CreateOptions(props) {
+        const docs = props.docs;
+        if (docs) {
+            const options = docs.map((doc, index) => <option value={doc._id} key={index}>{doc.title}</option>);
+            return (
+                <select id={"doc-select"}>
+                    <option value="-99" key="0">Choose a document</option>
+                    {options}
+                </select>
+            )
+        }
+        return (
             <select id={"doc-select"}>
                 <option value="-99" key="0">Choose a document</option>
-                {docs.map((doc, index) => <option value={doc._id} key={index}>{doc.title}</option>)}
             </select>
+        )
+    }
+    return (
+        <div>
+            <CreateOptions docs={docs} />
             <button className={"margin-left"} onClick={fetchDoc}>Open</button>
         </div>
 );
