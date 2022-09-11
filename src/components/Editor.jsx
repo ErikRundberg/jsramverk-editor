@@ -11,7 +11,7 @@ function Editor({docs, fetchDocs}) {
     async function saveDoc() {
         const newDoc = {
             title: document.getElementById("doc-title").value,
-            text: doc["text"]
+            content: doc["content"]
         };
         if (doc !== null) {
             newDoc["_id"] = doc._id;
@@ -28,7 +28,7 @@ function Editor({docs, fetchDocs}) {
         document.getElementById("doc-select").value = -99;
     }
     function handleChange() {
-        doc["text"] = document.querySelector("trix-editor").value;
+        doc["content"] = document.querySelector("trix-editor").value;
     }
     return (
         <div className={"editor-container"}>

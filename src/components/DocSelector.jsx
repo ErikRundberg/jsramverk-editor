@@ -6,7 +6,7 @@ function DocSelector({docs, setDoc}) {
         if (docSelect.value !== "-99") {
             const doc = await docsModel.getDoc(docSelect.value);
             document.getElementById("doc-title").value = doc["title"];
-            document.querySelector("trix-editor").value = doc["text"];
+            document.querySelector("trix-editor").value = doc["content"];
             setDoc(doc);
             docSelect.value = doc["_id"];
         }
