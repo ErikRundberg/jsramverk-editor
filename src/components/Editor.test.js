@@ -11,7 +11,7 @@ test("Render without crashing", () => {
     expect(screen.getByPlaceholderText("Start writing...")).toBeInTheDocument();
 });
 
-test("New button resets document", async () => {
+test("User resets document by clicking new button", async () => {
     render(<Editor />);
     const user = userEvent.setup();
     const titleInput = document.querySelector("#doc-title");
