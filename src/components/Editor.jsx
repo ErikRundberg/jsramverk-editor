@@ -8,6 +8,10 @@ import React, {useEffect, useState} from "react";
 
 let update = true;
 
+let baseUrl = window.location.href.includes("localhost") ?
+    "http://localhost:1338" :
+    "https://jsramverk-editor-erru17.azurewebsites.net";
+
 function Editor({docs, fetchDocs}) {
     const [doc, setDoc] = useState([]);
     const [content, setContent] = useState("");
@@ -65,7 +69,7 @@ function Editor({docs, fetchDocs}) {
     }
 
     useEffect(() => {
-        setSocket(io("http://localhost:1338"));
+        setSocket(io(baseUrl));
 
         return () => {
             if (socket) {
