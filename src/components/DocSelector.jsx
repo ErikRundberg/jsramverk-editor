@@ -1,17 +1,17 @@
 import React from "react";
 import docsModel from '../models/docs';
 
-function DocSelector({docs, setDoc}) {
+function DocSelector({docs, setDoc, setContent, setTitle}) {
     async function fetchDoc() {
         const docSelect = document.getElementById("doc-select");
 
         if (docSelect.value !== "-99") {
             const doc = await docsModel.getDoc(docSelect.value);
 
-            document.getElementById("doc-title").value = doc["title"];
-            document.querySelector("trix-editor").value = doc["content"];
             setDoc(doc);
-            docSelect.value = doc["_id"];
+            setContent(doc.content);
+            setTitle(doc.title);
+            docSelect.value = doc._id;
         }
     }
 

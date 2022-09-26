@@ -1,64 +1,67 @@
-import "trix/dist/trix";
-import "trix/dist/trix.css";
-import { TrixEditor } from "react-trix";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import { io } from "socket.io-client";
 
 import DocSelector from './DocSelector';
 import docsModel from '../models/docs';
 import React, {useEffect, useState} from "react";
 
+let update = true;
 
 function Editor({docs, fetchDocs}) {
     const [doc, setDoc] = useState([]);
+    const [content, setContent] = useState("");
+    const [title, setTitle] = useState("");
     const [socket, setSocket] = useState(null);
-    const [update, setUpdate] = useState(false);
 
 
     async function saveDoc() {
         const newDoc = {
-            title: document.getElementById("doc-title").value,
-            content: doc["content"]
+            title: title,
+            content: content
         };
 
         if (doc !== null) {
-            newDoc["_id"] = doc._id;
+            newDoc._id = doc._id;
         }
         const result = await docsModel.createDoc(newDoc);
 
         await setDoc(result);
         await fetchDocs();
-        document.getElementById("doc-select").value = doc["_id"];
+        document.getElementById("doc-select").value = doc._id;
     }
 
     function newDoc() {
         setDoc([]);
-        document.getElementById("doc-title").value = "";
-        document.querySelector("trix-editor").value = "";
+        setTitle("");
+        setContent("");
         document.getElementById("doc-select").value = -99;
     }
 
-    function handleChange(html) {
-        if (update) {
+    function emitContent() {
+        if (socket) {
             const copy = Object.assign({}, doc);
 
-            copy.content = html;
+            update = false;
+            copy.content = content;
             setDoc(copy);
+            socket.emit("doc", doc);
         }
-        setUpdate(true);
     }
 
-    function setEditorContent(content, changeContent) {
-        let element = document.querySelector("trix-editor");
+    function emitTitle() {
+        if (socket) {
+            const copy = Object.assign({}, doc);
 
-        let textPosition = element.editor.getSelectedRange();
+            update = false;
+            copy.title = title;
+            setDoc(copy);
+            socket.emit("doc", doc);
+        }
+    }
 
-        setUpdate(changeContent);
-        element.value = "";
-        element.editor.setSelectionRange([0, 0]);
-        setUpdate(changeContent);
-        console.log(content);
-        element.editor.insertHTML(content);
-        element.editor.setSelectedRange(textPosition.current);
+    function changeTitle() {
+        setTitle(document.getElementById("title").value);
     }
 
     useEffect(() => {
@@ -75,19 +78,19 @@ function Editor({docs, fetchDocs}) {
         if (socket) {
             socket.emit("create", doc["_id"]);
         }
-    }, [doc["_id"]]);
+    }, [doc._id]);
 
     useEffect(() => {
         if (socket) {
-            socket.emit("doc", doc);
+            socket.on("update", (doc) => {
+                if (update) {
+                    setDoc(doc);
+                    setContent(doc.content);
+                    setTitle(doc.title);
+                }
+                update = true;
+            });
         }
-    }, [doc]);
-
-    useEffect(() => {
-        socket.on("update", (data) => {
-            console.log("UPDATING");
-            setEditorContent(data.content, false);
-        });
     }, [socket]);
 
     return (
@@ -96,14 +99,16 @@ function Editor({docs, fetchDocs}) {
                 <button onClick={newDoc}>New</button>
                 <div>
                     <label>Title: </label>
-                    <input name={"title"} id={"doc-title"}/>
+                    <input name={"title"} onChange={changeTitle} onKeyUp={emitTitle}
+                        value={title} id={"title"} />
                     <button className={"margin-left"} onClick={saveDoc}>
                         Save</button>
                 </div>
-                <DocSelector docs={docs} setDoc={setDoc} />
+                <DocSelector docs={docs} setDoc={setDoc} setContent={setContent}
+                    setTitle={setTitle} />
             </div>
-            <TrixEditor id={"trix"} onChange={handleChange} mergeTags={[]}
-                placeholder={"Start writing..."} className={"trix-content"}/>
+            <ReactQuill theme={"snow"} value={content} onChange={setContent}
+                preserveWhitespace={ true } onKeyUp={emitContent} />
         </div>
     );
 }

@@ -79,7 +79,7 @@ header {
   padding: 2em;
 }
 
-trix-editor {
+.ql-editor {
   min-height: 35vh !important;
 }
 
