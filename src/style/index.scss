@@ -104,3 +104,16 @@ trix-toolbar {
   display: flex;
   justify-content: space-between;
 }
+
+/* The alert message box */
+.alert {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #f44336; /* Red */
+  color: white;
+  min-height: 10vh;
+  line-height: 2em;
+}

@@ -14,6 +14,7 @@ function DocSelector({docs, setDoc}) {
             docSelect.value = doc["_id"];
         }
     }
+
     function CreateOptions(props) {
         const docs = props.docs;
         const options = [<option value="-99" key="0">Choose a document</option>];
@@ -21,7 +22,7 @@ function DocSelector({docs, setDoc}) {
         if (docs) {
             docs.map(
                 (doc, index) => options.push(
-                    <option value={doc._id} key={index}>{doc.title}</option>)
+                    <option value={doc._id} key={index+1}>{doc.title}</option>)
             );
         }
 
