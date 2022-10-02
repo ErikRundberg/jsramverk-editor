@@ -3,14 +3,14 @@ const docs = {
         "http://localhost:1338" :
         "https://jsramverk-editor-erru17.azurewebsites.net",
 
-    getAllDocs: async function getAllDocs() {
-        const response = await fetch(`${this.baseUrl}/docs`);
+    getAllDocs: async function getAllDocs(email) {
+        const response = await fetch(`${this.baseUrl}/docs/${email}`);
         const result = await response.json();
 
         return result.data;
     },
     getDoc: async function getDoc(id) {
-        const response = await fetch(`${this.baseUrl}/docs/${id}`);
+        const response = await fetch(`${this.baseUrl}/docs/id/${id}`);
         const result = await response.json();
 
         return result.data;
@@ -22,6 +22,18 @@ const docs = {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(doc),
+        });
+        const result = await response.json();
+
+        return result.data;
+    },
+    addUser: async function addUser(body) {
+        const response = await fetch(`${this.baseUrl}/docs/add`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
         });
         const result = await response.json();
 

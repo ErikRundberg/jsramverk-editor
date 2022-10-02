@@ -12,27 +12,22 @@ let baseUrl = window.location.href.includes("localhost") ?
     "http://localhost:1338" :
     "https://jsramverk-editor-erru17.azurewebsites.net";
 
-function Editor({docs, fetchDocs}) {
-    const [doc, setDoc] = useState([]);
+function Editor({docs, fetchDocs, user, doc, setDoc}) {
     const [content, setContent] = useState("");
     const [title, setTitle] = useState("");
     const [socket, setSocket] = useState(null);
 
-
     async function saveDoc() {
         const newDoc = {
+            _id: doc ? doc._id : null,
             title: title,
-            content: content
+            content: content,
+            allowedUsers: user.email
         };
-
-        if (doc !== null) {
-            newDoc._id = doc._id;
-        }
         const result = await docsModel.createDoc(newDoc);
 
         await setDoc(result);
-        await fetchDocs();
-        document.getElementById("doc-select").value = doc._id;
+        await fetchDocs(user.email);
     }
 
     function newDoc() {
@@ -67,6 +62,12 @@ function Editor({docs, fetchDocs}) {
     function changeTitle() {
         setTitle(document.getElementById("title").value);
     }
+
+    useEffect(() => {
+        (async () => {
+            await fetchDocs(user.email);
+        })();
+    }, []);
 
     useEffect(() => {
         setSocket(io(baseUrl));
@@ -109,7 +110,7 @@ function Editor({docs, fetchDocs}) {
                         Save</button>
                 </div>
                 <DocSelector docs={docs} setDoc={setDoc} setContent={setContent}
-                    setTitle={setTitle} />
+                    setTitle={setTitle} email={user.email}/>
             </div>
             <ReactQuill theme={"snow"} value={content} onChange={setContent}
                 preserveWhitespace={ true } onKeyUp={emitContent} />

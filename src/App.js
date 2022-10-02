@@ -1,34 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 import docsModel from './models/docs';
 import Editor from './components/Editor';
 import Buttons from "./components/Buttons";
-
+import Login from "./components/Login";
 
 function App() {
     const [docs, setDocs] = useState([]);
+    const [token, setToken] = useState("");
+    const [user, setUser] = useState({});
+    const [doc, setDoc] = useState([]);
 
-    async function fetchDocs() {
-        const allDocs = await docsModel.getAllDocs();
+    async function fetchDocs(email) {
+        const allDocs = await docsModel.getAllDocs(email);
 
         setDocs(allDocs);
-    }
-
-    useEffect(() => {
-        (async () => {
-            await fetchDocs();
-        })();
-    }, []);
-
-    function NoServerError() {
-        if (docs.length == 0) {
-            return (
-                <div className="alert">
-                    <p>Could not fetch documents</p>
-                    <p>Is the server on?</p>
-                </div>
-            );
-        }
     }
 
     return (
@@ -36,10 +22,15 @@ function App() {
             <header>
                 <h1>jsramverk Editor</h1>
             </header>
-            <NoServerError />
             <main className="main">
-                <Buttons />
-                <Editor docs={docs} fetchDocs={fetchDocs} />
+                { token ?
+                    <>
+                        <Buttons setToken={setToken} doc={doc} />
+                        <Editor docs={docs} fetchDocs={fetchDocs} user={user} doc={doc}
+                            setDoc={setDoc} />
+                    </>
+                    :
+                    <Login setToken={setToken} user={user} setUser={setUser} /> }
             </main>
         </div>
     );

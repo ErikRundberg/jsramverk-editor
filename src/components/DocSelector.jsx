@@ -15,8 +15,7 @@ function DocSelector({docs, setDoc, setContent, setTitle}) {
         }
     }
 
-    function CreateOptions(props) {
-        const docs = props.docs;
+    function CreateOptions() {
         const options = [<option value="-99" key="0">Choose a document</option>];
 
         if (docs) {
