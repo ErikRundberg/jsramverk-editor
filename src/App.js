@@ -7,9 +7,10 @@ import Login from "./components/Login";
 
 function App() {
     const [docs, setDocs] = useState([]);
-    const [token, setToken] = useState("");
+    const [token, setToken] = useState("asd");
     const [user, setUser] = useState({});
     const [doc, setDoc] = useState([]);
+    const [editor, setEditor] = useState({});
 
     async function fetchDocs(email) {
         const allDocs = await docsModel.getAllDocs(email);
@@ -25,9 +26,9 @@ function App() {
             <main className="main">
                 { token ?
                     <>
-                        <Buttons setToken={setToken} doc={doc} />
+                        <Buttons setToken={setToken} doc={doc} editor={editor}/>
                         <Editor docs={docs} fetchDocs={fetchDocs} user={user} doc={doc}
-                            setDoc={setDoc} />
+                            setDoc={setDoc} setEditor={setEditor}/>
                     </>
                     :
                     <Login setToken={setToken} user={user} setUser={setUser} /> }
