@@ -2,6 +2,8 @@ import React, {useState} from "react";
 import Modal from "react-modal";
 import docsModel from "../models/docs";
 
+import InviteModal from "./InviteModal";
+
 const customStyles = {
     content: {
         top: '50%',
@@ -17,10 +19,12 @@ const customStyles = {
     }
 };
 
+
 function ModalInviteButtons({doc}) {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [addUserIsOpen, setAddUserIsOpen] = useState(false);
     const [inviteUserIsOpen, setInviteUserIsOpen] = useState(false);
+    const [accessIsOpen, setAccessIsOpen] = useState(false);
     const [inviteEmail, setInviteEmail] = useState("");
 
     async function inviteUser() {
@@ -51,6 +55,7 @@ function ModalInviteButtons({doc}) {
             ? setAddUserIsOpen(false)
             : setAddUserIsOpen(true);
         setInviteUserIsOpen(false);
+        setAccessIsOpen(false);
     }
 
     function openInviteUser() {
@@ -58,6 +63,29 @@ function ModalInviteButtons({doc}) {
             ? setInviteUserIsOpen(false)
             : setInviteUserIsOpen(true);
         setAddUserIsOpen(false);
+        setAccessIsOpen(false);
+    }
+
+    function openAccess() {
+        accessIsOpen
+            ? setAccessIsOpen(false)
+            : setAccessIsOpen(true);
+        setInviteUserIsOpen(false);
+        setAddUserIsOpen(false);
+    }
+
+    function AccessList() {
+        let listItems = [];
+
+        if (doc.allowedUsers) {
+            doc.allowedUsers.forEach((item, index) => listItems.push(<li key={index}>{item}</li>));
+        }
+
+        console.log(doc.allowedUsers);
+
+        return doc.allowedUsers === undefined
+            ? <ul>Empty</ul>
+            : <ul>{listItems}</ul>;
     }
 
     return (
@@ -73,7 +101,7 @@ function ModalInviteButtons({doc}) {
                         <path className="close-x" d="M 10,10 L 30,30 M 30,10 L 10,30"/>
                     </svg>
                 </div>
-                <div className={"two-buttons"}>
+                <div className={"modal-buttons"}>
                     <button className={"invite-button"} onClick={openAddUser}>
                         <img src={"./assets/letter-icon.png"}/>
                         <strong>Add user to document</strong>
@@ -82,51 +110,26 @@ function ModalInviteButtons({doc}) {
                         <img src={"./assets/mail-icon.png"}/>
                         <strong>Mail invitation</strong>
                     </button>
+                    <button className={"invite-button"} onClick={openAccess}>
+                        <img src={"./assets/entries-icon.png"}/>
+                        <strong>Document access</strong>
+                    </button>
                 </div>
+                <InviteModal title={"Invite to document"}
+                    openState={addUserIsOpen}
+                    changeHandler={changeHandler}
+                    inviteFunction={inviteUser} />
+                <InviteModal title={"Mail invitation"}
+                    openState={inviteUserIsOpen}
+                    changeHandler={changeHandler}
+                    inviteFunction={inviteUser} />
                 <div style={{transition: "all 1s"}}
-                    className={`${addUserIsOpen ? "opened" : "closed"}`}>
-                    <div className={"grid"}>
-                        <div className={"grid-gap login"} >
-                            <h3 style={{color: "ghostwhite"}}>Invite to document</h3>
-                            <div className={"form-field"}>
-                                <label aria-label={"email"}>
-                                    <svg className="icon">
-                                        <use xlinkHref={"#icon-user"}></use>
-                                    </svg>
-                                    <span className="hidden">Username</span>
-                                </label>
-                                <input type={"email"} name={"email"}
-                                    autoComplete={"email"} className={"form-input"}
-                                    placeholder={"email"} onChange={changeHandler}/>
-                            </div>
-                            <small style={{color: "ghostwhite", textAlign: "center"}}>
-                                        Type * to make document public</small>
-                            <button style={{marginTop: "0.5em"}} onClick={inviteUser}>
-                                        Invite</button>
-                        </div>
-                    </div>
-                </div>
-                <div style={{transition: "all 1s"}}
-                    className={`${inviteUserIsOpen ? "opened" : "closed"}`}>
+                    className={`${accessIsOpen ? "opened" : "closed"}`}>
                     <div className={"grid"}>
                         <div className={"grid-gap login"}>
-                            <h3 style={{color: "ghostwhite"}}>Mail invitation</h3>
-                            <div className={"form-field"}>
-                                <label aria-label={"email"}>
-                                    <svg className="icon">
-                                        <use xlinkHref={"#icon-user"}></use>
-                                    </svg>
-                                    <span className="hidden">Username</span>
-                                </label>
-                                <input type={"email"} name={"email"}
-                                    autoComplete={"email"} className={"form-input"}
-                                    placeholder={"email"} onChange={changeHandler}/>
-                            </div>
-                            <small style={{color: "ghostwhite", textAlign: "center"}}>
-                                        Type * to make document public</small>
-                            <button style={{marginTop: "0.5em"}} onClick={inviteUser}>
-                                        Invite</button>
+                            <h3 style={{color: "ghostwhite"}}>Document access</h3>
                         </div>
+                        <AccessList />
                     </div>
                 </div>
             </Modal>

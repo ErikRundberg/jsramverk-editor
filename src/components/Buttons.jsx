@@ -1,5 +1,5 @@
 import React from "react";
-import ModalInvite from "./ModalInvite";
+import ModalInviteButtons from "./ModalInviteButtons";
 import {pdfExporter} from "quill-to-pdf";
 import { saveAs } from 'file-saver';
 
@@ -15,7 +15,7 @@ function Buttons({setToken, doc, editor}) {
         <div>
             <div className={"buttons"}>
                 <div className={"buttons-padding"}>
-                    <ModalInvite doc={doc} />
+                    <ModalInviteButtons doc={doc}/>
                     <button className={"button disabled"}>Code-mode</button>
                     <button className={"button"} onClick={exportPdf}>PDF</button>
                     <button className={"button"} onClick={() => {setToken("");}}>Logout</button>
