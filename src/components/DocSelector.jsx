@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import docsModel from '../models/docs';
 
 function DocSelector({docs, setDoc, setContent, setTitle}) {

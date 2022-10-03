@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-
+/* eslint-disable no-unused-vars */
 import docsModel from './models/docs';
 import Editor from './components/Editor';
 import Buttons from "./components/Buttons";
 import Login from "./components/Login";
+import ModalInviteButtons from "./components/ModalInviteButtons";
 
 function App() {
     const [docs, setDocs] = useState([]);
@@ -24,14 +25,15 @@ function App() {
                 <h1>jsramverk Editor</h1>
             </header>
             <main className="main">
-                { token ?
-                    <>
-                        <Buttons setToken={setToken} doc={doc} editor={editor}/>
-                        <Editor docs={docs} fetchDocs={fetchDocs} user={user} doc={doc}
-                            setDoc={setDoc} setEditor={setEditor}/>
-                    </>
-                    :
-                    <Login setToken={setToken} user={user} setUser={setUser} /> }
+                <ModalInviteButtons />
+                {/*{ token ?*/}
+                {/*    <>*/}
+                {/*        <Buttons setToken={setToken} doc={doc} editor={editor}/>*/}
+                {/*        <Editor docs={docs} fetchDocs={fetchDocs} user={user} doc={doc}*/}
+                {/*            setDoc={setDoc} setEditor={setEditor}/>*/}
+                {/*    </>*/}
+                {/*    :*/}
+                {/*    <Login setToken={setToken} user={user} setUser={setUser} /> }*/}
             </main>
         </div>
     );

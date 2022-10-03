@@ -278,3 +278,48 @@ svg {
 .doc-selector select {
   padding: 0.5em;
 }
+
+.two-buttons {
+  display: flex;
+  margin: 0 auto;
+  width: 80%;
+  height: 20vh;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.invite-button {
+  display: flex;
+  flex-direction: column;
+  width: 13vh;
+  height: 13vh;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1em;
+  background-color: #777777;
+
+  img {
+    width: 60%;
+    user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+  }
+
+  strong {
+    padding-top: 0.5em;
+    color: #eee;
+  }
+}
+
+.opened {
+  max-height: 50vh;
+  overflow-y: hidden;
+}
+
+.closed {
+  max-height: 0;
+  overflow-y: hidden;
+}
