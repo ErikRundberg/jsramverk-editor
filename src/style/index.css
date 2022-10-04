@@ -1,3 +1,7 @@
+@font-face {
+  font-family: milkycoffee;
+  src: local("milkycoffee"), url("../fonts/milkycoffee.otf") format("opentype");
+}
 * {
   margin: 0;
   overflow-x: hidden;
@@ -25,6 +29,12 @@ header {
   min-height: 10vh;
   color: #fffffe;
   background: linear-gradient(#2cb67d, #16764e);
+  font-family: milkycoffee, sans-serif;
+}
+header h1 {
+  padding: 0.5em;
+  font-size: 3em;
+  text-shadow: 2px 2px black;
 }
 
 .main {
@@ -81,7 +91,6 @@ header {
   padding: 2em;
 }
 
-/*noinspection CssUnusedSymbol*/
 .ql-editor {
   min-height: 35vh !important;
 }
@@ -99,14 +108,12 @@ header {
   justify-content: space-between;
 }
 
-/*noinspection CssUnusedSymbol*/
 .flex-row {
   display: flex;
   flex-direction: row;
   justify-content: space-around;
 }
 
-/*noinspection CssUnusedSymbol*/
 .login-buttons {
   width: 50%;
   margin: 0 auto;
@@ -141,7 +148,6 @@ button {
   cursor: pointer;
 }
 
-/*noinspection CssUnusedSymbol*/
 input[type=email],
 input[type=password],
 .login-buttons {
@@ -239,12 +245,9 @@ input[type=password],
   background-color: #d44179;
 }
 
-/*noinspection CssUnusedSymbol*/
 #register {
   background-color: #d6608d;
 }
-
-/*noinspection CssUnusedSymbol*/
 #register:hover {
   background-color: #e0568a;
 }
@@ -275,6 +278,55 @@ svg {
 .doc-selector input,
 .doc-selector select {
   padding: 0.5em;
+}
+
+.modal-buttons {
+  display: flex;
+  margin: 0 auto;
+  width: 80%;
+  height: 20vh;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.invite-button {
+  display: flex;
+  flex-direction: column;
+  width: 13vh;
+  height: 13vh;
+  align-items: center;
+  justify-content: center;
+  border-radius: 1em;
+  background-color: #777777;
+}
+.invite-button img {
+  width: 60%;
+  -webkit-user-drag: none;
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+.invite-button strong {
+  padding-top: 0.5em;
+  color: #eee;
+}
+
+.opened {
+  max-height: 50vh;
+  overflow-y: hidden;
+}
+
+.closed {
+  max-height: 0;
+  overflow-y: hidden;
+}
+
+.access-list {
+  padding: 1em;
+  background-color: ghostwhite;
+  width: 85%;
+  margin: 1em auto;
 }
 
 /*# sourceMappingURL=index.css.map */
