@@ -1,3 +1,8 @@
+@font-face {
+  font-family: milkycoffee;
+  src: local('milkycoffee'), url("../fonts/milkycoffee.otf") format('opentype');
+}
+
 * {
   margin: 0;
   overflow-x: hidden;
@@ -28,6 +33,13 @@ header {
   min-height: 10vh;
   color: #fffffe;
   background: linear-gradient(#2cb67d, #16764e);
+  font-family: milkycoffee, sans-serif;
+
+  h1 {
+    padding: 0.5em;
+    font-size: 3em;
+    text-shadow: 2px 2px black;
+  }
 }
 
 .main {
@@ -300,7 +312,6 @@ svg {
 
   img {
     width: 60%;
-    user-drag: none;
     -webkit-user-drag: none;
     user-select: none;
     -moz-user-select: none;
@@ -322,4 +333,11 @@ svg {
 .closed {
   max-height: 0;
   overflow-y: hidden;
+}
+
+.access-list {
+  padding: 1em;
+  background-color: ghostwhite;
+  width: 85%;
+  margin: 1em auto;
 }

@@ -38,6 +38,18 @@ const docs = {
         const result = await response.json();
 
         return result.data;
+    },
+    inviteUser: async function inviteUser(body) {
+        const response = await fetch(`${this.baseUrl}/email`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(body),
+        });
+        const result = await response.json();
+
+        return result.data;
     }
 };
 

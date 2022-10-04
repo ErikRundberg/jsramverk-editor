@@ -25,7 +25,7 @@ function App() {
             <main className="main">
                 { token ?
                     <>
-                        <Buttons setToken={setToken} doc={doc} editor={editor}/>
+                        <Buttons setToken={setToken} doc={doc} editor={editor} user={user}/>
                         <Editor docs={docs} fetchDocs={fetchDocs} user={user} doc={doc}
                             setDoc={setDoc} setEditor={setEditor}/>
                     </>

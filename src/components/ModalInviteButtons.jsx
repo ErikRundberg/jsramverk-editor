@@ -20,21 +20,38 @@ const customStyles = {
 };
 
 
-function ModalInviteButtons({doc}) {
+function ModalInviteButtons({doc, user}) {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [addUserIsOpen, setAddUserIsOpen] = useState(false);
     const [inviteUserIsOpen, setInviteUserIsOpen] = useState(false);
     const [accessIsOpen, setAccessIsOpen] = useState(false);
     const [inviteEmail, setInviteEmail] = useState("");
 
-    async function inviteUser() {
-        const body = {
-            _id: doc._id,
-            email: inviteEmail
-        };
+    async function addUser() {
+        if (inviteEmail !== "") {
+            const body = {
+                _id: doc._id,
+                email: inviteEmail
+            };
 
-        await docsModel.addUser(body);
-        console.log(inviteEmail + " not yet implemented");
+            await docsModel.addUser(body);
+        }
+
+        closeModal();
+    }
+
+    async function emailInviteUser() {
+        if (inviteEmail !== "") {
+            const body = {
+                to: inviteEmail,
+                from: user.email,
+                title: doc.title
+            };
+
+            await docsModel.inviteUser(body);
+            await docsModel.addUser(body);
+        }
+
         closeModal();
     }
 
@@ -48,6 +65,10 @@ function ModalInviteButtons({doc}) {
 
     function closeModal() {
         setIsOpen(false);
+        setInviteEmail("");
+        setAddUserIsOpen(false);
+        setInviteUserIsOpen(false);
+        setAccessIsOpen(false);
     }
 
     function openAddUser() {
@@ -78,14 +99,17 @@ function ModalInviteButtons({doc}) {
         let listItems = [];
 
         if (doc.allowedUsers) {
-            doc.allowedUsers.forEach((item, index) => listItems.push(<li key={index}>{item}</li>));
+            doc.allowedUsers.forEach((item, index) => {
+                if (item === "*") {
+                    return listItems = [<li key={"1"}><strong>Document is public</strong></li>];
+                }
+                listItems.push(<li key={index}><strong>{item}</strong></li>);
+            });
         }
 
-        console.log(doc.allowedUsers);
-
         return doc.allowedUsers === undefined
-            ? <ul>Empty</ul>
-            : <ul>{listItems}</ul>;
+            ? <ul className={"access-list"}><strong>Empty</strong></ul>
+            : <ul className={"access-list"}>{listItems}</ul>;
     }
 
     return (
@@ -102,27 +126,34 @@ function ModalInviteButtons({doc}) {
                     </svg>
                 </div>
                 <div className={"modal-buttons"}>
-                    <button className={"invite-button"} onClick={openAddUser}>
-                        <img src={"./assets/letter-icon.png"}/>
-                        <strong>Add user to document</strong>
-                    </button>
-                    <button className={"invite-button"} onClick={openInviteUser}>
-                        <img src={"./assets/mail-icon.png"}/>
-                        <strong>Mail invitation</strong>
-                    </button>
-                    <button className={"invite-button"} onClick={openAccess}>
-                        <img src={"./assets/entries-icon.png"}/>
-                        <strong>Document access</strong>
-                    </button>
+                    { doc._id ?
+                        <>
+                            <button className={"invite-button"} onClick={openAddUser}>
+                                <img src={"./assets/letter-icon.png"} alt={"letter icon"}/>
+                                <strong>Add user to document</strong>
+                            </button>
+                            <button className={"invite-button"} onClick={openInviteUser}>
+                                <img src={"./assets/mail-icon.png"} alt={"mail icon"}/>
+                                <strong>Mail invitation</strong>
+                            </button>
+                            <button className={"invite-button"} onClick={openAccess}>
+                                <img src={"./assets/entries-icon.png"} alt={"entries icon"}/>
+                                <strong>Document access</strong>
+                            </button>
+                        </>
+                        :
+                        <h2 style={{color: "ghostwhite"}}>Can only invite to saved document</h2>
+                    }
+
                 </div>
                 <InviteModal title={"Invite to document"}
                     openState={addUserIsOpen}
                     changeHandler={changeHandler}
-                    inviteFunction={inviteUser} />
+                    inviteFunction={addUser} />
                 <InviteModal title={"Mail invitation"}
                     openState={inviteUserIsOpen}
                     changeHandler={changeHandler}
-                    inviteFunction={inviteUser} />
+                    inviteFunction={emailInviteUser} />
                 <div style={{transition: "all 1s"}}
                     className={`${accessIsOpen ? "opened" : "closed"}`}>
                     <div className={"grid"}>
