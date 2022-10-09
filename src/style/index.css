@@ -2,7 +2,7 @@
   font-family: milkycoffee;
   src: local("milkycoffee"), url("../fonts/milkycoffee.otf") format("opentype");
 }
-* {
+*:not(.quill *) {
   margin: 0;
   overflow-x: hidden;
   box-sizing: border-box;

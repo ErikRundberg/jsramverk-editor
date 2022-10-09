@@ -12,7 +12,7 @@ let baseUrl = window.location.href.includes("localhost") ?
     "http://localhost:1338" :
     "https://jsramverk-editor-erru17.azurewebsites.net";
 
-function Editor({docs, fetchDocs, user, doc, setDoc, setEditor}) {
+function Editor({docs, fetchDocs, user, doc, setDoc, setEditor, token}) {
     const [content, setContent] = useState("");
     const [title, setTitle] = useState("");
     const [socket, setSocket] = useState(null);
@@ -24,7 +24,7 @@ function Editor({docs, fetchDocs, user, doc, setDoc, setEditor}) {
             content: content,
             allowedUsers: user.email
         };
-        const result = await docsModel.createDoc(newDoc);
+        const result = await docsModel.createDoc(token, newDoc);
 
         await setDoc(result);
         await fetchDocs(user.email);
@@ -116,7 +116,7 @@ function Editor({docs, fetchDocs, user, doc, setDoc, setEditor}) {
                         Save</button>
                 </div>
                 <DocSelector docs={docs} setDoc={setDoc} setContent={setContent}
-                    setTitle={setTitle} email={user.email}/>
+                    setTitle={setTitle} email={user.email} token={token}/>
             </div>
             <ReactQuill ref={(ref) => {createEditorInstance(ref);}} theme={"snow"} value={content}
                 onChange={setContent} preserveWhitespace={ true } onKeyUp={emitContent} />

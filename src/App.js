@@ -6,13 +6,13 @@ import Login from "./components/Login";
 
 function App() {
     const [docs, setDocs] = useState([]);
-    const [token, setToken] = useState("asd");
+    const [token, setToken] = useState("");
     const [user, setUser] = useState({});
     const [doc, setDoc] = useState([]);
     const [editor, setEditor] = useState({});
 
     async function fetchDocs(email) {
-        const allDocs = await docsModel.getAllDocs(email);
+        const allDocs = await docsModel.graphqlAllDocs(token, email);
 
         setDocs(allDocs);
     }
@@ -25,9 +25,10 @@ function App() {
             <main className="main">
                 { token ?
                     <>
-                        <Buttons setToken={setToken} doc={doc} editor={editor} user={user}/>
+                        <Buttons setToken={setToken} doc={doc} editor={editor} user={user}
+                            token={token}/>
                         <Editor docs={docs} fetchDocs={fetchDocs} user={user} doc={doc}
-                            setDoc={setDoc} setEditor={setEditor}/>
+                            setDoc={setDoc} setEditor={setEditor} token={token}/>
                     </>
                     :
                     <Login setToken={setToken} user={user} setUser={setUser} /> }

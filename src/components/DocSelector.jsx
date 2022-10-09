@@ -1,12 +1,12 @@
 import React from 'react';
 import docsModel from '../models/docs';
 
-function DocSelector({docs, setDoc, setContent, setTitle}) {
+function DocSelector({docs, setDoc, setContent, setTitle, token}) {
     async function fetchDoc() {
         const docSelect = document.getElementById("doc-select");
 
         if (docSelect.value !== "-99") {
-            const doc = await docsModel.getDoc(docSelect.value);
+            const doc = await docsModel.graphqlDoc(token, docSelect.value);
 
             setDoc(doc);
             setContent(doc.content);
@@ -33,7 +33,7 @@ function DocSelector({docs, setDoc, setContent, setTitle}) {
     }
     return (
         <div>
-            <CreateOptions docs={docs} />
+            <CreateOptions />
             <button className={"margin-left"} onClick={fetchDoc}>Open</button>
         </div>
     );

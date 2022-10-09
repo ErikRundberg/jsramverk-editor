@@ -20,7 +20,7 @@ const customStyles = {
 };
 
 
-function ModalInviteButtons({doc, user}) {
+function ModalInviteButtons({doc, user, token}) {
     const [modalIsOpen, setIsOpen] = useState(false);
     const [addUserIsOpen, setAddUserIsOpen] = useState(false);
     const [inviteUserIsOpen, setInviteUserIsOpen] = useState(false);
@@ -34,7 +34,7 @@ function ModalInviteButtons({doc, user}) {
                 email: inviteEmail
             };
 
-            await docsModel.addUser(body);
+            await docsModel.addUser(token, body);
         }
 
         closeModal();
@@ -48,8 +48,8 @@ function ModalInviteButtons({doc, user}) {
                 title: doc.title
             };
 
-            await docsModel.inviteUser(body);
-            await docsModel.addUser(body);
+            await docsModel.inviteUser(token, body);
+            await docsModel.addUser(token, body);
         }
 
         closeModal();
@@ -98,13 +98,16 @@ function ModalInviteButtons({doc, user}) {
     function AccessList() {
         let listItems = [];
 
+        console.log(doc.allowedUsers);
+
         if (doc.allowedUsers) {
-            doc.allowedUsers.forEach((item, index) => {
-                if (item === "*") {
-                    return listItems = [<li key={"1"}><strong>Document is public</strong></li>];
-                }
-                listItems.push(<li key={index}><strong>{item}</strong></li>);
-            });
+            if (doc.allowedUsers.includes("*")) {
+                listItems = [<li key={"1"}><strong>Document is public</strong></li>];
+            } else {
+                doc.allowedUsers.forEach((item, index) => {
+                    listItems.push(<li key={index}><strong>{item}</strong></li>);
+                });
+            }
         }
 
         return doc.allowedUsers === undefined
