@@ -1,6 +1,6 @@
 @font-face {
   font-family: milkycoffee;
-  src: local("milkycoffee"), url("../fonts/milkycoffee.otf") format("opentype");
+  src: local("milkycoffee"), url("../../public/assets/fonts/milkycoffee.otf") format("opentype");
 }
 *:not(.quill *) {
   margin: 0;
