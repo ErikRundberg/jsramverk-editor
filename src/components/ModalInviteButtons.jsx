@@ -98,8 +98,6 @@ function ModalInviteButtons({doc, user, token}) {
     function AccessList() {
         let listItems = [];
 
-        console.log(doc.allowedUsers);
-
         if (doc.allowedUsers) {
             if (doc.allowedUsers.includes("*")) {
                 listItems = [<li key={"1"}><strong>Document is public</strong></li>];
