@@ -150,11 +150,11 @@ function ModalInviteButtons({doc, user, token}) {
                 <InviteModal title={"Invite to document"}
                     openState={addUserIsOpen}
                     changeHandler={changeHandler}
-                    inviteFunction={addUser} />
+                    inviteFunction={addUser}/>
                 <InviteModal title={"Mail invitation"}
                     openState={inviteUserIsOpen}
                     changeHandler={changeHandler}
-                    inviteFunction={emailInviteUser} />
+                    inviteFunction={emailInviteUser}/>
                 <div style={{transition: "all 1s"}}
                     className={`${accessIsOpen ? "opened" : "closed"}`}>
                     <div className={"grid"}>

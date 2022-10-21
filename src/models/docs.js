@@ -64,13 +64,14 @@ const docs = {
 
         return result.data;
     },
-    graphqlAllDocs: async function graphqlAllDocs(token, email) {
+    graphqlAllDocs: async function graphqlAllDocs(token, email, editor) {
         const response = await fetch(`${this.baseUrl}/graphql?query=
-        { docs (email: "${email}") {
+        { docs (email: "${email}", editor: "${editor}") {
                 _id
                 title
                 content
                 allowedUsers
+                editor
             }}`, {
             headers: {
                 "x-access-token": token,

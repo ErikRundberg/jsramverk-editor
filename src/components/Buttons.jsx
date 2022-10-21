@@ -3,7 +3,7 @@ import ModalInviteButtons from "./ModalInviteButtons";
 import {pdfExporter} from "quill-to-pdf";
 import { saveAs } from 'file-saver';
 
-function Buttons({setToken, doc, editor, user, token, setCodeMode, codeMode}) {
+function Buttons({setToken, doc, editor, user, token, setCodeMode, codeMode, setDoc}) {
     async function exportPdf() {
         const pdfBlob = await pdfExporter.generatePdf(editor.getContents());
         const title = "title" in doc ? doc.title : "untitled";
@@ -12,6 +12,7 @@ function Buttons({setToken, doc, editor, user, token, setCodeMode, codeMode}) {
     }
 
     function changeCodeMode() {
+        setDoc([]);
         setCodeMode(!codeMode);
     }
 

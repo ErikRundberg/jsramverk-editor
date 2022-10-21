@@ -12,9 +12,8 @@ const code = {
             method: 'POST'
         });
         const result = await response.json();
-        const decodedOutput = atob(result.data);
 
-        console.log(decodedOutput);
+        return atob(result.data);
     }
 };
 

@@ -1,33 +1,28 @@
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import { io } from "socket.io-client";
 
 import DocSelector from './DocSelector';
 import docsModel from '../models/docs';
-import React, {useEffect, useState} from "react";
-
-let update = true;
-
-let baseUrl = window.location.href.includes("localhost") ?
-    "http://localhost:1338" :
-    "https://jsramverk-editor-erru17.azurewebsites.net";
+import React, {useContext, useEffect, useState} from "react";
+import {SocketContext} from "../context/socket";
 
 function Editor({docs, fetchDocs, user, doc, setDoc, setEditor, token}) {
+    const socket = useContext(SocketContext);
     const [content, setContent] = useState("");
     const [title, setTitle] = useState("");
-    const [socket, setSocket] = useState(null);
 
     async function saveDoc() {
         const newDoc = {
             _id: doc ? doc._id : null,
             title: title,
             content: content,
-            allowedUsers: user.email
+            allowedUsers: user.email,
+            editor: "doc"
         };
         const result = await docsModel.createDoc(token, newDoc);
 
         await setDoc(result);
-        await fetchDocs(user.email);
+        await fetchDocs(user.email, "doc");
     }
 
     function newDoc() {
@@ -37,30 +32,33 @@ function Editor({docs, fetchDocs, user, doc, setDoc, setEditor, token}) {
         document.getElementById("doc-select").value = -99;
     }
 
-    function emitContent() {
-        if (socket) {
-            const copy = Object.assign({}, doc);
-
-            update = false;
-            copy.content = content;
-            setDoc(copy);
-            socket.emit("doc", doc);
+    socket.on("update", (doc) => {
+        if (doc.typer !== user.email) {
+            setDoc(doc);
+            setContent(doc.content);
+            setTitle(doc.title);
         }
+    });
+
+    function emitTitle(data) {
+        const newTitle = data.target.value;
+        const copy = Object.assign({}, doc);
+
+        setTitle(newTitle);
+        copy.title = newTitle;
+        copy.typer = user.email;
+        setDoc(copy);
+        socket.emit("doc", copy);
     }
 
-    function emitTitle() {
-        if (socket) {
-            const copy = Object.assign({}, doc);
+    function emitContent(data) {
+        const copy = Object.assign({}, doc);
 
-            update = false;
-            copy.title = title;
-            setDoc(copy);
-            socket.emit("doc", doc);
-        }
-    }
-
-    function changeTitle() {
-        setTitle(document.getElementById("title").value);
+        setContent(data);
+        copy.content = data;
+        copy.typer = user.email;
+        setDoc(copy);
+        socket.emit("doc", copy);
     }
 
     function createEditorInstance(ref) {
@@ -71,18 +69,8 @@ function Editor({docs, fetchDocs, user, doc, setDoc, setEditor, token}) {
 
     useEffect(() => {
         (async () => {
-            await fetchDocs(user.email);
+            await fetchDocs(user.email, "doc");
         })();
-    }, []);
-
-    useEffect(() => {
-        setSocket(io(baseUrl));
-
-        return () => {
-            if (socket) {
-                socket.disconnect();
-            }
-        };
     }, []);
 
     useEffect(() => {
@@ -91,27 +79,13 @@ function Editor({docs, fetchDocs, user, doc, setDoc, setEditor, token}) {
         }
     }, [doc._id]);
 
-    useEffect(() => {
-        if (socket) {
-            socket.on("update", (doc) => {
-                if (update) {
-                    setDoc(doc);
-                    setContent(doc.content);
-                    setTitle(doc.title);
-                }
-                update = true;
-            });
-        }
-    }, [socket]);
-
     return (
         <div className={"editor-container"}>
             <div className={"padded-bot doc-selector"}>
                 <button onClick={newDoc}>New</button>
                 <div>
                     <label>Title: </label>
-                    <input name={"title"} onChange={changeTitle} onKeyUp={emitTitle}
-                        value={title} id={"title"} />
+                    <input name={"title"} onChange={emitTitle} value={title} id={"title"} />
                     <button className={"margin-left"} onClick={saveDoc}>
                         Save</button>
                 </div>
@@ -119,7 +93,7 @@ function Editor({docs, fetchDocs, user, doc, setDoc, setEditor, token}) {
                     setTitle={setTitle} email={user.email} token={token}/>
             </div>
             <ReactQuill ref={(ref) => {createEditorInstance(ref);}} theme={"snow"} value={content}
-                onChange={setContent} preserveWhitespace={ true } onKeyUp={emitContent} />
+                onChange={emitContent} preserveWhitespace={ true } />
         </div>
     );
 }

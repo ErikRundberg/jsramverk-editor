@@ -2,9 +2,8 @@
   font-family: milkycoffee;
   src: local("milkycoffee"), url("../../public/assets/fonts/milkycoffee.otf") format("opentype");
 }
-*:not(.quill *) {
+* {
   margin: 0;
-  overflow-x: hidden;
   box-sizing: border-box;
 }
 
@@ -22,6 +21,7 @@ code {
 
 header {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: center;
@@ -32,12 +32,18 @@ header {
   font-family: milkycoffee, sans-serif;
 }
 header h1 {
-  padding: 0.5em;
+  padding: 0.5em 0.5em 0;
   font-size: 3em;
   text-shadow: 2px 2px black;
 }
+header h2 {
+  padding-bottom: 0.5em;
+  text-shadow: 2px 2px black;
+  font-family: sans-serif;
+  font-size: 1.3em;
+}
 
-.main {
+main {
   display: flex;
   flex-direction: column;
   width: 50vw;
@@ -327,6 +333,71 @@ svg {
   background-color: ghostwhite;
   width: 85%;
   margin: 1em auto;
+}
+
+.flex-two-cols {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.console-output {
+  background-color: #e8e8e8;
+  height: 50vh;
+  width: 45%;
+}
+
+.execute-button {
+  color: #090909;
+  background: #dcdcdc;
+  border: none;
+  padding: 0.5em 1.5em;
+  font-size: 125%;
+  transition: all 0.3s;
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none; /* Standard */
+  width: 100%;
+  margin-bottom: 0.5em;
+}
+.execute-button:not(.disabled):hover {
+  background: #bebebe;
+}
+.execute-button:not(.disabled):active {
+  color: #e8e8e8;
+  background: #d0d0d0;
+}
+
+.code-editor {
+  position: relative;
+  background-color: black;
+  background-image: radial-gradient(rgba(0, 150, 0, 0.75), black 120%);
+  margin: 0;
+  overflow: hidden;
+  color: white;
+  font: 1.3rem Inconsolata, monospace;
+  text-shadow: 0 0 5px #C8C8C8;
+}
+.code-editor::after {
+  content: "";
+  position: absolute;
+  clear: both;
+  overflow: auto;
+  top: 2.75em;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.15) 1px, transparent 1px, transparent 2px);
+  pointer-events: none;
+}
+.code-editor::selection {
+  background: #0080FF;
+  text-shadow: none;
+}
+.code-editor pre {
+  padding: 0.5em;
+  margin: 0;
 }
 
 /*# sourceMappingURL=index.css.map */
