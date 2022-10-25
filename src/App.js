@@ -12,6 +12,7 @@ function App() {
     const [user, setUser] = useState({});
     const [doc, setDoc] = useState([]);
     const [editor, setEditor] = useState({});
+    const [codeEditor, setCodeEditor] = useState({});
     const [codeMode, setCodeMode] = useState(false);
 
     async function fetchDocs(email, editor) {
@@ -32,10 +33,10 @@ function App() {
                         <>
                             <Buttons setToken={setToken} doc={doc} editor={editor} user={user}
                                 token={token} setCodeMode={setCodeMode} codeMode={codeMode}
-                                setDoc={setDoc}/>
+                                setDoc={setDoc} codeEditor={codeEditor}/>
                             {codeMode ?
                                 <CodeEditor docs={docs} fetchDocs={fetchDocs} user={user} doc={doc}
-                                    setDoc={setDoc} setEditor={setEditor} token={token} /> :
+                                    setDoc={setDoc} setCodeEditor={setCodeEditor} token={token} /> :
                                 <Editor docs={docs} fetchDocs={fetchDocs} user={user} doc={doc}
                                     setDoc={setDoc} setEditor={setEditor} token={token} />
                             }

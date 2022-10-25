@@ -6,7 +6,7 @@ import DocSelector from "./DocSelector";
 import docsModel from "../models/docs";
 import {SocketContext} from "../context/socket";
 
-function CodeEditor({docs, fetchDocs, user, doc, setDoc, token}) {
+function CodeEditor({docs, fetchDocs, user, doc, setDoc, token, setCodeEditor}) {
     const socket = useContext(SocketContext);
     const [content, setContent] = useState("");
     const [title, setTitle] = useState("");
@@ -30,6 +30,7 @@ function CodeEditor({docs, fetchDocs, user, doc, setDoc, token}) {
     function handleEditorDidMount(editor) {
         editor.focus();
         editorRef.current = editor;
+        setCodeEditor(editor);
     }
 
     function newDoc() {

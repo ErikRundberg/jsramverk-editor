@@ -333,6 +333,7 @@ svg {
   background-color: ghostwhite;
   width: 85%;
   margin: 1em auto;
+  list-style-type: none;
 }
 
 .flex-two-cols {

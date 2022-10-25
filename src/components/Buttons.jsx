@@ -1,11 +1,21 @@
 import React from "react";
 import ModalInviteButtons from "./ModalInviteButtons";
 import {pdfExporter} from "quill-to-pdf";
+import "quill-delta";
 import { saveAs } from 'file-saver';
+import Delta from "quill-delta";
 
-function Buttons({setToken, doc, editor, user, token, setCodeMode, codeMode, setDoc}) {
+function Buttons({setToken, doc, editor, user, token, setCodeMode, codeMode, setDoc, codeEditor}) {
     async function exportPdf() {
-        const pdfBlob = await pdfExporter.generatePdf(editor.getContents());
+        let pdfContent;
+
+        if (codeMode === "Doc-mode") {
+            pdfContent = editor.getContents();
+        } else {
+            pdfContent = new Delta([ { insert: codeEditor.getValue().replaceAll("\r", "") }]);
+        }
+
+        const pdfBlob = await pdfExporter.generatePdf(pdfContent);
         const title = "title" in doc ? doc.title : "untitled";
 
         saveAs(pdfBlob, `${title}.pdf`);
