@@ -18,7 +18,7 @@ function CodeEditor({docs, fetchDocs, user, doc, setDoc, token}) {
             _id: doc ? doc._id : null,
             title: title,
             content: content,
-            allowedUsers: user.email,
+            allowedUsers: [user.email],
             editor: "code"
         };
         const result = await docsModel.createDoc(token, newDoc);
