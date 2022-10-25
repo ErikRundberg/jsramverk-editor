@@ -9,14 +9,14 @@ function Buttons({setToken, doc, editor, user, token, setCodeMode, codeMode, set
     async function exportPdf() {
         let pdfContent;
 
-        if (codeMode === "Doc-mode") {
-            pdfContent = editor.getContents();
-        } else {
+        if (codeMode) {
             pdfContent = new Delta([ { insert: codeEditor.getValue().replaceAll("\r", "") }]);
+        } else {
+            pdfContent = editor.getContents();
         }
 
         const pdfBlob = await pdfExporter.generatePdf(pdfContent);
-        const title = "title" in doc ? doc.title : "untitled";
+        const title = document.getElementById("title").value;
 
         saveAs(pdfBlob, `${title}.pdf`);
     }
